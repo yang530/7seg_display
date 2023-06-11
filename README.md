@@ -1,7 +1,7 @@
 # 7seg_display
 A Handy 7-seg display which displays time and has a stop watch function.
 
-##main.js
+## main.js
 1. rewrote function clock(disArray, context, interval) to accomodate the addition of API. 
 The APP will load time from either API or system ONCE and calculate time based on T0 60 times per second instead of loading time for every refresh.
 2. rewrote function startClock(id1, id2, id3) to integrate API features.
