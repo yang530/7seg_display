@@ -2,9 +2,11 @@
 //main JS script of the app
 import { SegDis } from "./segDis.js";
 
+//target elements on HTML page
 const canvas = document.getElementById("screen");
 const ctx = canvas.getContext("2d");
 const api_select = document.getElementById("api_select");
+const loadCityImg = document.getElementById("showCityImg");
 
 //constants
 const gap = 1;
@@ -15,18 +17,20 @@ const disH = segL * 2 + segW * 3 + 4 * gap + 2 * marg;
 const disW = segW * 2 + segL + 2 * gap + 2 * marg;
 const numOfDis = 8;
 const rps = 60; //# of refresh per second
-const interval = 1000/rps;
-const rollInt = 300;
-const urlAPI = "http://worldtimeapi.org/api/timezone/"
+const interval = 1000/rps; //interval wait for refresh
+const rollInt = 300; //time interval (in milliseconds) for display to roll characters one unit towards left
+const urlAPI = "http://worldtimeapi.org/api/timezone/" //url for the time API used
+const tWait = 1000; //time to wait for API response
 
 let currentDate = new Date();
 let disContent = " ";
 
 //t0 time at the press of TIME button
-let apiT0 = new Date(); // t0 get from API
+let apiT0 = new Date(); // t0 get from API, use current system time for now
 let clkT0 = new Date(); // t0 get from system 
 
 //initialize the display on the canvas
+//returns dimension of the display after it is done
 function initDis(regX, regY, disArray, initChar){
 
     let loopEnd = numOfDis;
@@ -73,7 +77,8 @@ function refreshDis(disArray, context, text){
 
 }
 
-//refresh display to the current time
+//this function calculate the time is supposed to display based on apiT0 and current system time
+//this way I only need to load time from API once when I start the clock
 function displayTime(disArray, context){
 
     currentDate = new Date();
@@ -130,7 +135,8 @@ function t2String(d){
 
 }
 
-//a clock function
+//a function to update displace to match clock time
+//the function refresh the display X number of times per second
 function clock(disArray, context, interval){
 
 
@@ -138,6 +144,7 @@ function clock(disArray, context, interval){
         if(mode != 1){
             clearInterval(clock_id);
         }
+        //refresh display
         displayTime(disArray, context);
     } , interval);
 
@@ -153,53 +160,102 @@ function startClock(id1, id2, id3){
     clearInterval(id3);
 
     let nuT0 = new Date();
-    let apiOpt = api_select.value;
-    let locURL = null;
+    let apiOpt = api_select.value; //get value from menu selection
+    let locURL = null; //location string apply to URL uploaded to the API
+    let bgPath = null;
 
     switch(apiOpt){
         case "system":
-            //record the current system time as t0 for the clock
-            clkT0 = nuT0;
-            //use current system time for apiT0 for now, 
-            //change apiT0 after the time is fetch from API
-            apiT0 = nuT0;
+            loadSysTime();
             break;
         case "newyork":
             //fetch api time
             locURL = "America/New_York";
-            apiTFetch(locURL).then((val)=>{console.log(val)}).catch((err)=>{console.log(err)});
+            applyResponse();
             break;
         case "beijing":
             //fetch api time
+            //NOTE: ALL OF CHINA USE THE SAME TIME ZONE: UTC-8 (Beijing Standard Time)
+            //THIS API ONLY HAS HONG KONG BUT IT IS THE SAME UTC-8 time 
             locURL = "Asia/Hong_Kong";
-            apiTFetch(locURL).then((val)=>{console.log(val)}).catch((err)=>{console.log(err)});
+            applyResponse();
             break;
         case "london":
             //fetch api time
             locURL = "Europe/London";
-            apiTFetch(locURL).then((val)=>{console.log(val)}).catch((err)=>{console.log(err)});
+            applyResponse();
             break;
         case "paris":
             //fetch api time
             locURL = "Europe/Paris";
-            apiTFetch(locURL).then((val)=>{console.log(val)}).catch((err)=>{console.log(err)});
+            applyResponse();
             break;
         default:
-            //record the current system time as t0 for the clock
-            clkT0 = nuT0;
-            //use current system time for apiT0 for now, 
-            //change apiT0 after the time is fetch from API
-            apiT0 = nuT0;
+            loadSysTime();
             console.log("something wrong with API select, using system time");
             break;
     }
 
 
     return clock(dis7, ctx, interval);
+
+    //load system time
+    function loadSysTime(){
+        //record the current system time as t0 for the clock
+        clkT0 = nuT0;
+        //use current system time for apiT0 for now, 
+        //change apiT0 after the time if is fetch from API
+        apiT0 = nuT0;
+        document.body.style.backgroundImage = ogBackground;
+    }
+
+    //try to apply response from API 
+    function applyResponse(){
+        //catch return from apiFetch
+        apiTFetch(locURL).then((val)=>{
+            if(val == null){
+                console.log("No response in "+ tWait.toString() +" ms");
+                console.log("USING SYSTEM TIME");
+                loadSysTime();
+            }
+            else{
+                //apply if it is a valid response
+                console.log(locURL + " time is loaded:");
+                console.log(val);
+                //update apiT0 and clkT0
+                apiT0 = new Date(val);
+                clkT0 = new Date();
+
+                if(loadCityImg.checked == true){
+                    //apply background
+                    //need to figure out if it is day or night
+                    let hour = apiT0.getHours();
+                    if(hour >= 7 && hour < 19){
+                        //it is day
+                        bgPath = "url('./assets/day/"; 
+                    }else{
+                        //it is night
+                        bgPath = "url('./assets/nite/";
+                    }
+                    bgPath += apiOpt + ".jpg')";
+                    console.log(bgPath);
+                }else{
+                    bgPath = ogBackground.toString();
+                    console.log(bgPath);
+                }
+                document.body.style.backgroundImage = bgPath;
+
+            }
+        }).catch((err)=>{console.log(err + "\n USING SYSTEM TIME.");loadSysTime();});
+    }
+
 }
 
 //function to fetch time from api
-function apiTFetch(locURL){
+async function apiTFetch(locURL){
+
+    //time in ms to wait for API response
+    let result = null;
 
     //make a request
     let xhr = new XMLHttpRequest();
@@ -207,36 +263,43 @@ function apiTFetch(locURL){
     xhr.open("GET", urlAPI+locURL, true);
     xhr.send();
 
-    return new Promise((resolve, reject)=>{
-
-        //break promise if no response in 1000ms
-        let waitID = setTimeout(()=>{reject("No response in 1000ms")}, 1000);
+    //promise to load time via API
+    let apiPromise = new Promise((resolve, reject)=>{
 
         xhr.addEventListener("readystatechange", (event)=>{
             
+            let dStr = null;
+
             if(xhr.readyState === 4){
-                //clear timeout
-                clearTimeout(waitID);
+
                 //convert response to json obj
-                let rspJson = JSON.parse(xhr.responseText);
+                if(xhr.responseText != ""){
 
-                //precess string
-                let dStr = rspJson.datetime.slice(0, 19);
-                console.log("sliced str: "+dStr);
+                    let rspJson = JSON.parse(xhr.responseText);
+                    console.log("API Response: " + rspJson.datetime);
+                    //precess string the desire format
+                    dStr = rspJson.datetime.slice(0, 19);
 
-                //update apiT0 and clkT0
-                apiT0 = new Date(dStr);
-                clkT0 = new Date();
-                //print out result
-                console.log("time fetched: "+rspJson.datetime);
-                console.log("new apiT0: "+apiT0.toString());
+                }
+
                 //resolve promise
-                resolve(locURL + " time is loaded!");
+                resolve(dStr);
             }
 
         });
 
     });
+
+    //stop if no response in 1000ms
+    let toPromise = new Promise((resolve, reject)=>{
+        setTimeout(()=>{resolve(null)}, tWait);
+    });
+
+    await Promise.race([apiPromise, toPromise]).then((val)=>{
+        result = val;
+    }).catch((err)=>{result = err;}); 
+
+    return result;
 }
 
 //tElapse is in milliseconds
@@ -461,6 +524,7 @@ const b_sw = document.getElementById("b_sw");
 const l_Login = document.getElementById("l_Login");
 const tBreaks = document.getElementById("tBreaks");
 
+const ogBackground = document.body.style.backgroundImage; //original background picture
 let dis7 = [];
 let clock_id = null;
 let sw_id = null;
@@ -480,9 +544,3 @@ else{
     initPage();
 }
 
-
-
-
-//for debug
-//have the display show time
-//let clock_id = clock(dis7, ctx, interval);

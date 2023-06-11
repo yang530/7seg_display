@@ -11,6 +11,7 @@ export class SegDis {
     #segPosX = 0;
     #segPosY = 0;
     #context;
+    #disColor = "rgb(232, 185, 35)"; //color of filled segments of display
 
     //pattern is a 7 digit binary control code for display segments of EACH 7 seg display 
     //pattern can be an integer from 0 to 127
@@ -122,7 +123,7 @@ export class SegDis {
         this.#context.save();
         //set up draw settings
         this.#context.strokeStyle = "silver";
-        this.#context.fillStyle = "rgb(232, 185, 35)";
+        this.#context.fillStyle = this.#disColor;
 
         this.setPattern(parseInt(this.char2Code(character), 2));
         //console.log(this.char2Code(character));
@@ -144,6 +145,7 @@ export class SegDis {
     }
 
     //draw a specific segment of the display
+    //segVal is an indication of whether the segment is on (displayed as filled)
     drawSeg(segNum, segVal){
 
         let segX = this.#segPosX + this.#disGap + this.#segWth + this.#segMarg;
@@ -151,6 +153,7 @@ export class SegDis {
         let rectW = this.#segLen;
         let rectH = this.#segWth;
 
+        //need to set up draw location based on which segment it drawing
         switch(segNum){
 
             case 1:
