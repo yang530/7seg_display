@@ -1,0 +1,35 @@
+API integration to the APP 
+
+main.js:
+1. rewrote function clock(disArray, context, interval) to accomodate the addition of API. 
+The APP will load time from either API or system ONCE and calculate time based on T0 60 times per second instead of loading time for every refresh.
+2. rewrote function startClock(id1, id2, id3) to integrate API features.
+3. in function startClock, added two addition functions loadSystemTime() and applyResponse(). 
+applyResponse() will change background based on location selected and time of the day.
+4. added function apiTFetch(locURL) to load world time using API. Time is fetch via AJAX using promise function in Javascript. 
+Select loaction in drop down menu and press TIME to fetch time of selected location. 
+5. all previous features should still work including the login system.
+6. world time is powered by worldtimeapi.org API.
+
+
+Handy 7 Seg display
+
+Homepage:
+1. click TIME to display current system time.
+2. click WELCOME to display the welcome message AND reset display. 
+   (welcome message can be customized in the settings page)
+3. click STOPWATCH to start a timer, click again to stop timer. When timer is stopped, click again to resume timer.
+
+Settings (only available when logged in):
+1. customize welcome message.
+2. upload an image to use it as background for this user.
+
+Login:
+1. Login to apply the user settings
+2. When in login page, user has the option to logout or delete account
+
+Notes:
+1. SegDis.js contains a javascript class. This class renders a 7-seg display using only javascript canvas without any libraries or frameworks.
+2. Main.js is the main js script file of the project.
+3. The homepage uses AJAX to fetch welcome message when the page is loaded.
+4. Uploaded image files are stored in the asset folder. 
