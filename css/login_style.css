@@ -1,0 +1,12 @@
+#div_Login{
+    text-align: center;
+    width: 50%;
+    border: 5px;
+    border-color: silver;
+    background-color:  rgb(50, 50, 50);
+    margin: 2%;
+}
+
+#div_logout{
+    text-align: center;
+}

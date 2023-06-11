@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>7 Seg Display</title>
+    <link rel="icon" type = "image/x-icon" href="./assets/favicon.ico">
+    <link rel="stylesheet" href="css/basic_style.css">
+    <link rel="stylesheet" href="css/home_style.css">
+    <?php
+        if($_SESSION["isLoggedin"] == true){
+            if($_SESSION["background"] != null){
+                $bg = $_SESSION["background"];
+                ?>
+                    <style>
+                        body{
+                            background-image: url(<?=$bg?>);
+                        }
+                    </style>
+                <?php
+            }
+        }
+    ?>
+</head>
+<body>
+    <!--site header-->
+    <div id = "header">
+        <div id = "banner"></div>
+        <div id = "navbar">
+            <a href = "Home.php"><img id = "logo" src = "./assets/myLogo.png"></a>
+            <ul>
+                <li><a id = "l_Login" href="Login.php">
+                    <?php
+                        if($_SESSION["isLoggedin"] == true){
+                            echo($_SESSION["userName"]);
+                        }
+                        else{
+                            echo("Login");
+                        }
+                    ?>
+                </a></li>
+                <li><a href="Settings.php">Settings</a></li>
+            </ul> 
+        </div>
+    </div>
+    <!--page contents-->
+    <div id = "contents">
+        <section id = "cParent">
+            <div>
+                <h1>Handy 7-Seg Display</h1>
+            </div>
+            <div id = "segDis">
+                <canvas id = "screen" width = device-width height = device-height></canvas>
+            </div>
+            <br>
+            <div id = "div_select">
+                <select id = "api_select">
+                    <option value="system">SYSTEM</option>
+                    <option value="newyork">NEW YORK</option>
+                    <option value="beijing">BEIJING</option>
+                    <option value="london">LONDON</option>
+                    <option value="paris">PARIS</option>
+                </select>
+            </div>
+            <div id = "div_buttons1">
+                <button id = "b_time" type = "button">TIME</button>
+                <button id = "b_welcome" type = "button">WELCOME</button>
+            </div>
+            <br>
+            <button id = "b_sw" type = "button">STOPWATCH</button>
+            <br>
+            <div id = "tBreaks"></div>
+        </section>
+    </div>
+    
+    <script type = "module" src="./scripts/main.js"></script>
+    
+</body>
+</html>

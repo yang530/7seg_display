@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>7 Seg Display Demo</title>
+    <link rel="icon" type = "image/x-icon" href="./assets/favicon.ico">
+    <link rel="stylesheet" href="css/basic_style.css">
+    <link rel="stylesheet" href="css/login_style.css">
+    <?php
+        if($_SESSION["isLoggedin"] == true){
+            if($_SESSION["background"] != null){
+                $bg = $_SESSION["background"];
+                ?>
+                    <style>
+                        body{
+                            background-image: url(<?=$bg?>);
+                        }
+                    </style>
+                <?php
+            }
+        }
+    ?>
+</head>
+<body>
+    <!--site header-->
+    <div id = "header">
+        <div id = "banner"></div>
+        <div id = "navbar">
+            <a href = "Home.php"><img id = "logo" src = "./assets/myLogo.png"></a>
+            <ul>
+                <li><a id = "l_Login" href="Login.php">
+                    <?php
+                        if($_SESSION["isLoggedin"] == true){
+                            echo($_SESSION["userName"]);
+                        }
+                        else{
+                            echo("Login");
+                        }
+                    ?>
+                </a></li>
+                <li><a href="Settings.php">Settings</a></li>
+            </ul> 
+        </div>
+    </div>
+    <!--page contents-->
+    <div id = "contents">
+        <section id = "cParent">
+            <!--contents go here-->
+            <?php
+                if($_SESSION["isLoggedin"] == false){
+                    ?>
+                        <div id = "div_Login">
+                            <div>
+                                <h1>Login</h1>
+                            </div>
+                            <div>
+                                <form id = "loginForm" action = "#" method = "POST">
+                                    <p>User Name:</p>
+                                    <input type = "text" name = "fUser" placeholder="Name111" required/><br>
+                                    <p>Password:</p>
+                                    <input type = "password" name = "fPwd" placeholder="" required/>
+                                    <br>
+                                </form>
+                                <br>
+                            </div>
+                            <br>
+                            <div>
+                                <button id = "bLogin" type = "button">Login</button>
+                                <button id = "bCreate" type = "button">Create</button>
+                            </div>
+                            <br>
+                        </div>
+                    <?php
+                }
+                else{
+                    ?>
+                        <div id = "div_logout">
+                            <h1>You are loggedin as: <?=$_SESSION["userName"]?></h1>
+                            <h2><a href = "./php/process_logout.php">Logout</a></h2>
+                            <form id = "loginForm" action = "#" method = "POST"></form>
+                            <div>
+                                <button id = "bDel" type = "button" style="color: darkred;" >I WANT TO DELETE MY ACCOUNT!</button>
+                            </div>
+                        </div>
+                    <?php
+                }
+            ?>
+        </section>
+    </div>
+    
+    <script type = "module" src="./scripts/login_script.js"></script>
+    <script src=""></script>
+</body>
+</html>

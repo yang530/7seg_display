@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>7 Seg Display Temp Page</title>
+    <link rel="icon" type = "image/x-icon" href="./assets/favicon.ico">
+    <link rel="stylesheet" href="css/basic_style.css">
+    <link rel="stylesheet" href="">
+</head>
+<body>
+    <!--site header-->
+    <div id = "header">
+        <div id = "banner"></div>
+        <div id = "navbar">
+            <a href = "Home.php"><img id = "logo" src = "./assets/myLogo.png"></a>
+            <ul>
+                <li><a id = "l_Login" href="Login.php">
+                    <?php
+                        if($_SESSION["isLoggedin"] == true){
+                            echo($_SESSION["userName"]);
+                        }
+                        else{
+                            echo("Login");
+                        }
+                    ?>
+                </a></li>
+                <li><a href="Settings.php">Settings</a></li>
+            </ul> 
+        </div>
+    </div>
+    <!--page contents-->
+    <div id = "contents">
+        <section id = "cParent">
+            <!--contents go here-->
+        </section>
+    </div>
+    
+    <script type = "module" src=""></script>
+    <script src=""></script>
+</body>
+</html>
