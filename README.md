@@ -13,7 +13,7 @@ Select loaction in drop down menu and press TIME to fetch time of selected locat
 6. World time is powered by WorldTimeAPI - http://worldtimeapi.org/ (You may need to disable CORS-"CROSS-ORIGIN-RESOURCE-SHARING" policy of your browser to get the API to function properly)
 
 ## Homepage:
-1. Click TIME to display current time.
+1. Click TIME to display current time. Use drop down menu to choose location.
 2. Click WELCOME to display the welcome message AND reset display. 
    (welcome message can be customized in the settings page)
 3. Click STOPWATCH to start a timer, click again to stop timer. When timer is stopped, click again to resume timer.
