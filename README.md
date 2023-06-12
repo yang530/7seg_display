@@ -10,7 +10,7 @@ applyResponse() will change background based on location selected and time of th
 4. Added function apiTFetch(locURL) to load world time using API. Time is fetch via AJAX using promise function in Javascript. 
 Select loaction in drop down menu and press TIME to fetch time of selected location. 
 5. All previous features should still work including the login system.
-6. World time is powered by WorldTimeAPI - http://worldtimeapi.org/ (You may need to disable CORS-"CROSS-ORIGIN-RESOURCE-SHARING" policy of your browser to get the API function properly)
+6. World time is powered by WorldTimeAPI - http://worldtimeapi.org/ (You may need to disable CORS-"CROSS-ORIGIN-RESOURCE-SHARING" policy of your browser to get the API to function properly)
 
 ## Homepage:
 1. Click TIME to display current system time.
