@@ -1,0 +1,11 @@
+// I know you are not supposed to upload the .env file to github
+// but since there no sensitive information on the heroku database, so I do it anyway for demonstration purpose.
+// change to file name to .env after you download the project
+
+APP_ENV=handy7
+HOST=us-cdbr-east-06.cleardb.net
+CHARSET=utf8mb4
+DB_NAME=heroku_30ba90e74fb2023
+DB_PORT=3306
+DB_USER=bd1da081a1d5a7
+DB_PWD=1ab8bce4
