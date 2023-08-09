@@ -19,7 +19,7 @@ const numOfDis = 8;
 const rps = 60; //# of refresh per second
 const interval = 1000/rps; //interval wait for refresh
 const rollInt = 300; //time interval (in milliseconds) for display to roll characters one unit towards left
-const urlAPI = "http://worldtimeapi.org/api/timezone/" //url for the time API used
+const urlAPI = "https://worldtimeapi.org/api/timezone/" //url for the time API used
 const tWait = 1000; //time to wait for API response
 
 let currentDate = new Date();
