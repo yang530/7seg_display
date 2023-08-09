@@ -11,12 +11,8 @@
 
 <?php
 
-    //dsn = data source name
-    $dsn = "mysql:host=localhost;dbname=sql_intro_imm2022;charset=utf8mb4";
-
-    //username and password
-    $dbusername = "root";
-    $dbpassword = "";
+    //using the loadENV.php
+    include 'loadENV.php';
 
     //log into the data base
     $pdo = new PDO($dsn, $dbusername, $dbpassword); 
@@ -37,9 +33,9 @@
             echo("Login Successful!");
             echo("<br><br>");
             ?>
-                <a href = "../Home.php">Back to Homepage</a>
+                <a href = "../index.php">Back to Homepage</a>
             <?php
-            header("refresh:3; url=../Home.php");
+            header("refresh:3; url=../index.php");
         }
         else{
             echo("password wrong!");

@@ -12,12 +12,8 @@
 
 <?php
 
-    //dsn = data source name
-    $dsn = "mysql:host=localhost;dbname=sql_intro_imm2022;charset=utf8mb4";
-
-    //username and password
-    $dbusername = "root";
-    $dbpassword = "";
+    //using the loadENV.php
+    include 'loadENV.php';
     
     //log into the data base
     $pdo = new PDO($dsn, $dbusername, $dbpassword); 

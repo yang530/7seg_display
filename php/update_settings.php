@@ -4,15 +4,12 @@
     $bgPath = null;
     $id = $_SESSION["user_Id"];
 
+    //using the loadENV.php
+    include 'loadENV.php';
+
+    //upload img file
     include 'upload_img.php';
     $bgPath = $picPath;
-
-    //dsn = data source name
-    $dsn = "mysql:host=localhost;dbname=sql_intro_imm2022;charset=utf8mb4";
-
-    //username and password
-    $dbusername = "root";
-    $dbpassword = "";
 
     //log into the data base
     $pdo = new PDO($dsn, $dbusername, $dbpassword); 

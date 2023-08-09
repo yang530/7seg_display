@@ -1,14 +1,11 @@
 <?php
+
     //php script to delete a user
     session_start();
     $id = $_SESSION["user_Id"];
 
-    //dsn = data source name
-    $dsn = "mysql:host=localhost;dbname=sql_intro_imm2022;charset=utf8mb4";
-
-    //username and password
-    $dbusername = "root";
-    $dbpassword = "";
+    //using the loadENV.php
+    include 'loadENV.php';
 
     //log into the data base
     $pdo = new PDO($dsn, $dbusername, $dbpassword); 
@@ -29,13 +26,13 @@
         session_destroy();
     }
     else{
-        echo("Something went wrong during table update...<br>");
+        echo("Oops, something went wrong during table update...<br>");
     }
 
     ?>
-        <a href = "../Home.php">Back to Homepage<a>
+        <a href = "../index.php">Back to Homepage<a>
         <p>Page will be redirected after 3 seconds</p>
     <?php
-    header("refresh:3; url=../Home.php");
+    header("refresh:3; url=../index.php");
 
 ?>
